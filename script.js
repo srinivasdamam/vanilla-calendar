@@ -7,7 +7,12 @@ const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Frida
 
 
 function load() {
+    calendar.innerHTML = '';
     const dt = new Date();
+    
+    if (nav !== 0) {
+        dt.setMonth(new Date().getMonth() + nav);
+    }
     
     const month = dt.getMonth();
     const date = dt.getDate();
@@ -26,6 +31,8 @@ function load() {
         year: 'numeric',
 
     });
+
+    document.getElementById("monthDisplay").innerText = `${dt.toLocaleDateString('en-IN', { month: "long"})} ${year}`;
     
     const paddingDays = weekdays.indexOf(dateString.split(", ")[0]);
     
@@ -41,9 +48,20 @@ function load() {
             daySquare.classList.add('padding');
         }
         calendar.appendChild(daySquare);
-
     }
-
 }
 
+function initButtons() {
+    document.getElementById('backButton').addEventListener('click', () => {
+        nav--;
+        load();
+    });
+
+    document.getElementById('nextButton').addEventListener('click', () => {
+        nav++;
+        load();
+    })
+}
+
+initButtons();
 load();
